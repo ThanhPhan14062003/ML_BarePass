@@ -8,3 +8,4 @@ src/features/__pycache__
 .DS_Store
 src/data/.DS_Store
 data/processed
+weights
