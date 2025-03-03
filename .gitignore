@@ -1,6 +1,6 @@
 mlproject
 *.pdf
-data/raw
+data
 src/__pycache__
 src/.DS_Store
 src/data/__pycache__
