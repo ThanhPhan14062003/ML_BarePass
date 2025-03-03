@@ -1,6 +1,6 @@
 mlproject
 *.pdf
-data
+/data
 src/__pycache__
 src/.DS_Store
 src/data/__pycache__
@@ -8,4 +8,4 @@ src/features/__pycache__
 .DS_Store
 src/data/.DS_Store
 data/processed
-weights
+/weights
