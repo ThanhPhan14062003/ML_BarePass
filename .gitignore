@@ -5,7 +5,14 @@ src/__pycache__
 src/.DS_Store
 src/data/__pycache__
 src/features/__pycache__
+src/models/__pycache__
 .DS_Store
 src/data/.DS_Store
 data/processed
 weights
+ml_barepass
+notebooks/assignment1/.ipynb_checkpoints
+data/processed/train/X_train.npy
+data/processed/train/y_train.npy
+data/processed/test/X_test.npy
+data/processed/test/y_test.npy

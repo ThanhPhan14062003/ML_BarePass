@@ -1,45 +1,40 @@
-import numpy as np
+import torch
+import torch.nn as nn
+import torchvision.models as models
+import torchvision.transforms as transforms
 import pandas as pd
-import tensorflow as tf
-from keras.api.applications import EfficientNetB0
-from keras.api.applications.vgg19 import VGG19
-from keras.api.models import Model
-from keras.api.layers import Dense, Flatten, BatchNormalization
+from PIL import Image
+import numpy as np
+from tqdm import tqdm
 
-
+def get_device():
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
+    return device
 
 # Create EfficientNetB0 model for feature extraction
-def create_efficientnet_model():
-    # Load EfficientNetB0 model with weights pre-trained on ImageNet
-    efficientnet_model = EfficientNetB0(weights='imagenet', include_top=False)
-    x = Flatten()(efficientnet_model.output)
-    
-    model =  Model(inputs=efficientnet_model.input, outputs=x)
-    return model
+def create_efficientnet_model(device= torch.device("cpu")):
+    efficientnet_b0 = models.efficientnet_b0(pretrained=True)
+    efficientnet_b0 = nn.Sequential(*list(efficientnet_b0.children())[:-2])  # Remove classifier
+
+    return efficientnet_b0.eval().to(device)
 
 # Create VGG-19 model for feature extraction
-def create_vgg_model():
-    vgg_model = VGG19(weights='imagenet', include_top= False)
-    x = Flatten()(vgg_model.output)
+def create_vgg_model(device= torch.device("cpu")):
+    vgg19 = models.vgg19(pretrained=True)
+    vgg19 = nn.Sequential(*list(vgg19.children())[:-1])  # Remove classifier
     
-    model =  Model(inputs=vgg_model.input, outputs=x)
-    return model
-    
+    return vgg19.eval().to(device)
+
 # Function to extract features from both EfficientNetB0 and VGG-19 and fuse them
-def extract_features(df: pd.DataFrame, preprocess_images):
-    # Load models
-    effnet_model = create_efficientnet_model()
-    vgg_model = create_vgg_model()
+def extract_features(model, image):
     
-    # Preprocess images for both models
-    image_paths = df['filepath'].values
+    with torch.no_grad():
+        feature = model(image)
+        feature = torch.flatten(feature, start_dim=1)
     
-    effnet_images = preprocess_images(image_paths, model_type='effnet')
-    
-    vgg_images = preprocess_images(image_paths, model_type='vgg')
-    
-    # Extract features from both models
-    effnet_features = effnet_model.predict(effnet_images)
-    vgg_features = vgg_model.predict(vgg_images)
-    
-    return effnet_features, vgg_features
+    return feature

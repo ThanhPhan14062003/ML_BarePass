@@ -6,6 +6,8 @@ import pandas as pd
 from PIL import Image
 import numpy as np
 from tqdm import tqdm
+from src.features.build_features import *
+from src.data.preprocess import preprocess_images
 
 # Label mapping dictionary
 label_dict = {
@@ -13,29 +15,6 @@ label_dict = {
     'brain_menin': 1,
     'brain_tumor': 2
 }
-
-# Load pre-trained models (without fully connected layers)
-efficientnet_b0 = models.efficientnet_b0(pretrained=True)
-efficientnet_b0 = nn.Sequential(*list(efficientnet_b0.children())[:-1])  # Remove classifier
-
-vgg19 = models.vgg19(pretrained=True)
-vgg19 = nn.Sequential(*list(vgg19.children())[:-1])  # Remove classifier
-
-# Set models to evaluation mode
-efficientnet_b0.eval()
-vgg19.eval()
-
-# Move models to GPU if available
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-efficientnet_b0.to(device)
-vgg19.to(device)
-
-# Define preprocessing transformations
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-])
 
 def load_data(df: pd.DataFrame):
     """
@@ -54,6 +33,11 @@ def load_data(df: pd.DataFrame):
 
     print("Loading images and extracting features...")
 
+    device = get_device()
+    print(f"Using device: {device}")
+    vgg_19 = create_vgg_model(device)
+    efficientnet_b0 = create_efficientnet_model(device)
+    
     b0_features = []
     vgg_features = []
     labels = []
@@ -61,18 +45,13 @@ def load_data(df: pd.DataFrame):
     for img_path, label in tqdm(zip(df["filepath"], df["labels"])):
         try:
             # Load image
-            image = Image.open(img_path).convert("RGB")
-            image = transform(image).unsqueeze(0).to(device)  # Add batch dimension
-
-            with torch.no_grad():
-                # Extract EfficientNet-B0 features
-                b0_feat = efficientnet_b0(image)
-                b0_feat = torch.flatten(b0_feat, start_dim=1)  # Flatten feature map
-
-                # Extract VGG19 features
-                vgg_feat = vgg19(image)
-                vgg_feat = torch.flatten(vgg_feat, start_dim=1)  # Flatten feature map
-
+            image = preprocess_images(img_path).unsqueeze(0).to(device)
+           
+            b0_feat = extract_features(efficientnet_b0, image)
+            
+            vgg_feat = extract_features(vgg_19, image)
+            
+            
             # Store features
             b0_features.append(b0_feat.cpu().numpy())
             vgg_features.append(vgg_feat.cpu().numpy())
@@ -82,11 +61,11 @@ def load_data(df: pd.DataFrame):
 
         except Exception as e:
             print(f"Error processing {img_path}: {e}")
-            continue
+            return
 
     # Convert lists to NumPy arrays
     b0_features = np.vstack(b0_features)
-    vgg_features = np.vstack(vgg_features)
+    vgg_features = np.vstack(vgg_features) 
     fused_features = np.concatenate((b0_features, vgg_features), axis=1)
 
     return {
