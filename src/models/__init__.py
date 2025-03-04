@@ -73,7 +73,7 @@ class SKLearnModel():
 __skl_model__ = {
     'decision_tree': DecisionTreeClassifier,
     "naive_bayes": GaussianNB,
-    "svm": SVC()
+    "svm": SVC
 }
 
 class TorchModel():
