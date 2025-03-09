@@ -67,17 +67,20 @@ git clone https://github.com/ThanhPhan14062003/ML_BarePass.git
 cd ML_BarePass
 
 # Install the required dependencies
+conda create --name ml_barepass python=3.9
+conda activate ml_barepass
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 pip install -r requirements.txt
 ```
 
 ## Usage
 
 ```sh
-# Preprocess the data
-python src/data_processing.py
+# Preprocess the data (Just run in the first time) and train, explore on following notebook:
+notebooks/assignment1/exploration.ipynb
 
-# Train the model
-python src/train.py
+# If you have already processed data, you can skip the first part of above implementation or run this file:
+notebooks/assignment1/submission.ipynb
 
 # Evaluate the model
 python src/evaluate.py
