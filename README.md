@@ -99,10 +99,7 @@ This step ensures that only relevant brain structures are used for model trainin
 Once the brain region is extracted, additional transformations are applied to prepare the images for feature extraction:
 
 - **Resizing**: All images are resized to **224 × 224 pixels** to match the input dimensions required by deep learning models.
-- **Channel Conversion**: Since VGG-19 requires RGB images, grayscale images are converted to 3-channel format when needed.
-- **Normalization**:
-  - **EfficientNet-B0**: Images are normalized with a mean of `[0.5]` and a standard deviation of `[0.5]`.
-  - **VGG-19**: Images are normalized using ImageNet standards with a mean of `[0.485, 0.456, 0.406]` and a standard deviation of `[0.229, 0.224, 0.225]`.
+- **Normalization**: Images are normalized with a mean of `[0.5]` and a standard deviation of `[0.5]`.
 
 These preprocessing steps standardize the images, ensuring consistency in model inputs and improving generalization.
 
