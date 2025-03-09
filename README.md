@@ -73,6 +73,50 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install -r requirements.txt
 ```
 
+## Model Descriptions
+
+This project implements multiple machine learning models, each with unique characteristics and applications:
+
+### 1. SimpleMLP (Multi-Layer Perceptron)
+The **SimpleMLP** is a fully connected neural network that serves as a deep learning baseline. It consists of:
+- **Input Layer**: Accepts the input features.
+- **Hidden Layer**: A single hidden layer with 128 neurons, using ReLU activation for non-linearity.
+- **Output Layer**: A fully connected layer that maps to the number of output classes.
+- **Training**: Uses cross-entropy loss and an optimizer (such as Adam or SGD).
+- **Use Case**: Suitable for tasks requiring deep learning-based feature representation.
+
+### 2. Decision Tree Classifier
+The **Decision Tree Model** is a classic non-parametric supervised learning algorithm:
+- **Algorithm**: Uses `sklearn.tree.DecisionTreeClassifier` with Gini impurity or entropy as the criterion.
+- **Tree Structure**: Recursively splits features to create a hierarchy of decision nodes.
+- **Training**: Learns rules based on training samples without requiring feature scaling.
+- **Output**: Provides class predictions and probability estimates.
+- **Use Case**: Useful for interpretable models and datasets with non-linear decision boundaries.
+
+### 3. Naive Bayes Classifier
+The **Naive Bayes Model** is a probabilistic classifier based on Bayes' Theorem with an independence assumption:
+- **Algorithm**: Uses `sklearn.naive_bayes.GaussianNB`, assuming that feature distributions follow a Gaussian (normal) distribution.
+- **Training**: Computes class-conditional probabilities and priors from training data.
+- **Output**: Predicts classes based on the highest posterior probability.
+- **Use Case**: Works well for high-dimensional datasets and text classification.
+
+### 4. Hidden Markov Model (HMM)
+The **HMM Model** is a sequence-based model that learns hidden state transitions:
+- **Emission Network**: Uses an MLP to model emission probabilities (likelihood of observing input given a hidden state).
+- **Transition Matrix**: A learnable matrix that represents transition probabilities between states.
+- **Initial Probabilities**: Learnable start probabilities for sequence initialization.
+- **Training**: Uses Negative Log-Likelihood (NLL) loss and optimizes transition/emission parameters.
+- **Use Case**: Ideal for sequence prediction tasks like speech recognition and part-of-speech tagging.
+
+### 5. Bayesian Network Model
+The **Bayesian Network Model** is a probabilistic graphical model that incorporates uncertainty in learning:
+- **Bayesian Layers**: Instead of fixed weights, the model learns a distribution over the weights (mean and variance).
+- **Reparameterization Trick**: Samples weights from a Gaussian distribution to perform uncertainty estimation.
+- **Output**: Produces log-softmax probabilities for classification.
+- **Training**: Uses Negative Log-Likelihood (NLL) loss and optimizes both mean and variance of the weights.
+- **Use Case**: Useful for uncertainty-aware classification tasks and Bayesian deep learning applications.
+
+
 ## Usage
 
 ```sh
