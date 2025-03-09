@@ -73,6 +73,82 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install -r requirements.txt
 ```
 
+## Data Preprocessing
+
+### Overview
+The data preprocessing pipeline is designed to refine and enhance MRI images before passing them to machine learning models. It includes steps such as brain region extraction, image normalization, and feature extraction using pre-trained deep learning models.
+
+---
+
+### 1. Brain Contour Extraction
+To remove unnecessary background noise and focus on the brain region, we apply an automated contour extraction process:
+
+- **Convert to Grayscale**: MRI images are transformed into grayscale for more efficient processing.
+- **Gaussian Blurring**: A smoothing filter is applied to reduce noise and enhance the edges of the brain.
+- **Thresholding**: A binary thresholding technique is used to highlight significant structures.
+- **Morphological Operations**:
+  - **Erosion**: Eliminates small unwanted noise regions.
+  - **Dilation**: Strengthens the segmented region for better contour detection.
+- **Contour Detection**: The largest contour, which is assumed to correspond to the brain, is identified and cropped.
+
+This step ensures that only relevant brain structures are used for model training, improving performance and reducing computational overhead.
+
+---
+
+### 2. Image Preprocessing
+Once the brain region is extracted, additional transformations are applied to prepare the images for feature extraction:
+
+- **Resizing**: All images are resized to **224 × 224 pixels** to match the input dimensions required by deep learning models.
+- **Channel Conversion**: Since VGG-19 requires RGB images, grayscale images are converted to 3-channel format when needed.
+- **Normalization**:
+  - **EfficientNet-B0**: Images are normalized with a mean of `[0.5]` and a standard deviation of `[0.5]`.
+  - **VGG-19**: Images are normalized using ImageNet standards with a mean of `[0.485, 0.456, 0.406]` and a standard deviation of `[0.229, 0.224, 0.225]`.
+
+These preprocessing steps standardize the images, ensuring consistency in model inputs and improving generalization.
+
+---
+
+### 3. Feature Extraction with Pre-Trained Models
+After preprocessing, features are extracted using **EfficientNet-B0** and **VGG-19**, two powerful deep learning architectures:
+
+- **EfficientNet-B0**:
+  - Extracts high-level semantic features from images using its advanced convolutional layers.
+  - Captures hierarchical patterns and textures within the brain region.
+- **VGG-19**:
+  - Uses deep convolutional layers to learn spatial structures and fine-grained details.
+  - Provides robust feature representations for classification.
+
+Each image is processed through both models, and the resulting feature vectors are **concatenated** to form a comprehensive representation. This **feature fusion** approach enhances classification performance by leveraging the strengths of both architectures.
+
+---
+
+### 4. Dataset Processing and Labeling
+The dataset consists of MRI images labeled into different categories:
+
+- **brain_glioma** (Label: `0`)
+- **brain_menin** (Label: `1`)
+- **brain_tumor** (Label: `2`)
+
+Each image's corresponding label is assigned based on the dataset metadata. The extracted features and labels are then stored as structured arrays for downstream model training.
+
+---
+
+### 5. Output Format
+After preprocessing, the following outputs are generated:
+
+- **`b0_feature`**: Extracted features from EfficientNet-B0.
+- **`vgg_feature`**: Extracted features from VGG-19.
+- **`fused_feature`**: Concatenated feature vectors from both models.
+- **`labels`**: Ground truth labels corresponding to each image.
+
+These structured outputs serve as inputs for the training phase, facilitating efficient learning and classification.
+
+---
+
+### Summary
+The data preprocessing pipeline plays a crucial role in ensuring high-quality inputs for machine learning models. By performing **brain contour extraction, image normalization, and deep feature extraction**, the pipeline enhances model performance and improves classification accuracy. The fusion of EfficientNet-B0 and VGG-19 features further strengthens the ability to distinguish between different brain conditions, making it a robust approach for medical image analysis.
+
+
 ## Model Descriptions
 
 This project implements multiple machine learning models, each with unique characteristics and applications:
