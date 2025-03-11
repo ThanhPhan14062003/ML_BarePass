@@ -2,6 +2,17 @@
 
 This repository contains the implementation of our group Machine Learning assignment, including data preprocessing, model training, evaluation, and analysis.
 
+## Group members
+
+The following table outlines the distribution of tasks and contributions for the project:
+| Name                        | StudentID | Contribution (%) | Task                                                                      |
+|-----------------------------|-----------|------------------|---------------------------------------------------------------------------|
+| Đặng Quốc Minh              | 2153567   | 25%              | Preprocessing & Testing and Debugging & Hypertuning                       |
+| Trần Bảo Nguyên             | 2153637   | 25%              | Model Training & Evaluation & Code for Torch Models                       |
+| Nguyễn Lương Hữu Huy        | 1952266   | 25%              | Data collection & Feature Engineering & Analysis                          |
+| Phan Hữu Thành              | 2112305   | 25%              | Visualizations & Code for Sklearn Models                                  |
+| Nguyễn Tấn Nhật             | 2152832   | 25%              | Visualizations & Code for Sklearn Models                                  |
+
 ## Folder Structure
 
 ```
