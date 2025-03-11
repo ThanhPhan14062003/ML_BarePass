@@ -201,6 +201,7 @@ notebooks/assignment1/submission.ipynb
 ```
 
 ## Results
+**Note**: You might get different results when running the code. We are still trying to fix the results for every user.
 
 This table shows the performance of different models based on accuracy, precision, recall, and F1 score:
 
