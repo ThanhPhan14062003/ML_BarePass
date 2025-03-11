@@ -78,6 +78,8 @@ pip install -r requirements.txt
 ### Overview
 The data preprocessing pipeline is designed to refine and enhance MRI images before passing them to machine learning models. It includes steps such as brain region extraction, image normalization, and feature extraction using pre-trained deep learning models.
 
+![Brain Cancer Dataset Visualization](./asset/dataset.png)
+
 ---
 
 ### 1. Brain Contour Extraction
@@ -103,6 +105,8 @@ Once the brain region is extracted, additional transformations are applied to pr
 
 These preprocessing steps standardize the images, ensuring consistency in model inputs and improving generalization.
 
+![Brain Crop Visualization](./asset/preprocess.png)
+
 ---
 
 ### 3. Feature Extraction with Pre-Trained Models
@@ -116,6 +120,9 @@ After preprocessing, features are extracted using **EfficientNet-B0** and **VGG-
   - Provides robust feature representations for classification.
 
 Each image is processed through both models, and the resulting feature vectors are **concatenated** to form a comprehensive representation. This **feature fusion** approach enhances classification performance by leveraging the strengths of both architectures.
+
+![Features Visualization](./asset/features.png)
+
 
 ---
 
@@ -156,7 +163,6 @@ The **SimpleMLP** is a fully connected neural network that serves as a deep lear
 - **Hidden Layer**: A single hidden layer with 128 neurons, using ReLU activation for non-linearity.
 - **Output Layer**: A fully connected layer that maps to the number of output classes.
 - **Training**: Uses cross-entropy loss and an optimizer (such as Adam or SGD).
-- **Use Case**: Suitable for tasks requiring deep learning-based feature representation.
 
 ### 2. Decision Tree Classifier
 The **Decision Tree Model** is a classic non-parametric supervised learning algorithm:
@@ -164,14 +170,12 @@ The **Decision Tree Model** is a classic non-parametric supervised learning algo
 - **Tree Structure**: Recursively splits features to create a hierarchy of decision nodes.
 - **Training**: Learns rules based on training samples without requiring feature scaling.
 - **Output**: Provides class predictions and probability estimates.
-- **Use Case**: Useful for interpretable models and datasets with non-linear decision boundaries.
 
 ### 3. Naive Bayes Classifier
 The **Naive Bayes Model** is a probabilistic classifier based on Bayes' Theorem with an independence assumption:
 - **Algorithm**: Uses `sklearn.naive_bayes.GaussianNB`, assuming that feature distributions follow a Gaussian (normal) distribution.
 - **Training**: Computes class-conditional probabilities and priors from training data.
 - **Output**: Predicts classes based on the highest posterior probability.
-- **Use Case**: Works well for high-dimensional datasets and text classification.
 
 ### 4. Hidden Markov Model (HMM)
 The **HMM Model** is a sequence-based model that learns hidden state transitions:
@@ -179,7 +183,6 @@ The **HMM Model** is a sequence-based model that learns hidden state transitions
 - **Transition Matrix**: A learnable matrix that represents transition probabilities between states.
 - **Initial Probabilities**: Learnable start probabilities for sequence initialization.
 - **Training**: Uses Negative Log-Likelihood (NLL) loss and optimizes transition/emission parameters.
-- **Use Case**: Ideal for sequence prediction tasks like speech recognition and part-of-speech tagging.
 
 ### 5. Bayesian Network Model
 The **Bayesian Network Model** is a probabilistic graphical model that incorporates uncertainty in learning:
@@ -187,25 +190,30 @@ The **Bayesian Network Model** is a probabilistic graphical model that incorpora
 - **Reparameterization Trick**: Samples weights from a Gaussian distribution to perform uncertainty estimation.
 - **Output**: Produces log-softmax probabilities for classification.
 - **Training**: Uses Negative Log-Likelihood (NLL) loss and optimizes both mean and variance of the weights.
-- **Use Case**: Useful for uncertainty-aware classification tasks and Bayesian deep learning applications.
 
 
 ## Usage
 
 ```sh
-# Preprocess the data (Just run in the first time) and train, explore on following notebook:
-notebooks/assignment1/exploration.ipynb
 
-# If you have already processed data, you can skip the first part of above implementation or run this file:
 notebooks/assignment1/submission.ipynb
 
-# Evaluate the model
-python src/evaluate.py
 ```
 
 ## Results
 
-All logs, metrics, and plots generated from the training and evaluation process will be stored in the `results/` folder.
+This table shows the performance of different models based on accuracy, precision, recall, and F1 score:
+
+| Model            | Accuracy  | Precision  | Recall    | F1        |
+|:-----------------|:---------:|:----------:|:---------:|:---------:|
+| decision_tree    | 0.545     | 0.522157   | 0.545     | 0.50495   |
+| mlp              | 0.978333  | 0.978652   | 0.978333  | 0.97838   |
+| naive_bayes      | 0.401667  | 0.28544    | 0.401667  | 0.323378  |
+| bayesian_network | 0.853333  | 0.855581   | 0.853333  | 0.853195  |
+| hmm              | 0.88      | 0.883947   | 0.88      | 0.880416  |
+| svm              | 0.675     | 0.712632   | 0.675     | 0.66111   |
+
+![Features Visualization](./asset/ModelCompare.png)
 
 ## License
 
