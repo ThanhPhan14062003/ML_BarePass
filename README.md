@@ -1,5 +1,7 @@
 # ML_BarePass Machine Learning Assignment [[Github](https://github.com/ThanhPhan14062003/ML_BarePass)]
 
+Link to github: https://github.com/ThanhPhan14062003/ML_BarePass
+
 This repository contains the implementation of our group Machine Learning assignment, including data preprocessing, model training, evaluation, and analysis.
 
 ## Group members
