@@ -218,14 +218,17 @@ notebooks/assignment1/submission.ipynb
 
 This table shows the performance of different models based on accuracy, precision, recall, and F1 score:
 
-| Model            | Accuracy  | Precision  | Recall    | F1        |
-|:-----------------|:---------:|:----------:|:---------:|:---------:|
-| decision_tree    | 0.545     | 0.522157   | 0.545     | 0.50495   |
-| mlp              | 0.978333  | 0.978652   | 0.978333  | 0.97838   |
-| naive_bayes      | 0.401667  | 0.28544    | 0.401667  | 0.323378  |
-| bayesian_network | 0.853333  | 0.855581   | 0.853333  | 0.853195  |
-| hmm              | 0.88      | 0.883947   | 0.88      | 0.880416  |
-| svm              | 0.675     | 0.712632   | 0.675     | 0.66111   |
+| Model               |   Accuracy |   Precision |   Recall |       F1 |
+|:--------------------|-----------:|------------:|---------:|---------:|
+| decision_tree       |   0.545    |    0.522157 | 0.545    | 0.50495  |
+| mlp                 |   0.978333 |    0.978652 | 0.978333 | 0.97838  |
+| naive_bayes         |   0.401667 |    0.28544  | 0.401667 | 0.323378 |
+| bayesian_network    |   0.853333 |    0.855581 | 0.853333 | 0.853195 |
+| hmm                 |   0.88     |    0.883947 | 0.88     | 0.880416 |
+| svm                 |   0.675    |    0.712632 | 0.675    | 0.66111  |
+| random_forest       |   0.395    |    0.414225 | 0.395    | 0.373503 |
+| gradient_boost      |   0.456667 |    0.484292 | 0.456667 | 0.398456 |
+| logistic_regression |   0.66     |    0.671367 | 0.66     | 0.659167 |
 
 ![Features Visualization](./asset/ModelCompare.png)
 

@@ -3,8 +3,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.svm import SVC 
+from sklearn_crfsuite import CRF
+
 from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import LogisticRegression
 import inspect
 import joblib
 import sys
@@ -73,7 +77,11 @@ class SKLearnModel():
 __skl_model__ = {
     'decision_tree': DecisionTreeClassifier,
     "naive_bayes": GaussianNB,
-    "svm": SVC
+    "svm": SVC,
+    "random_forest": RandomForestClassifier,
+    "gradient_boost": GradientBoostingClassifier,
+    "logistic_regression": LogisticRegression,
+    "crf_model": CRF
 }
 
 class TorchModel():
@@ -166,7 +174,7 @@ class BayesianNetworkModel(TorchModel, nn.Module):
 __other_model__ = {
     'mlp': SimpleMLP,
     "hmm": HMMModel,
-    "bayesian_network": BayesianNetworkModel,
+    "bayesian_network": BayesianNetworkModel
 }
     
 def load_model(model_name, **kwargs):

@@ -13,3 +13,6 @@ weights
 ml_barepass
 notebooks/assignment1/.ipynb_checkpoints
 .vscode
+model_metrics.md
+tests
+visualization
